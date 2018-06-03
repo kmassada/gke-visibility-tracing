@@ -1,5 +1,5 @@
 # helloworld_client
 
 ```shell
-export APPLICATION=helloworld_client
+export APPLICATION_CLIENT=helloworld-client
 ```

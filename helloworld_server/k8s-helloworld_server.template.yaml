@@ -34,7 +34,7 @@ spec:
         run: $APPLICATION_SERVER
     spec:
       containers:
-      - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$GOOGLE_CLOUD_PROJECT-labs/tracing_$APPLICATION_SERVER
+      - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$GOOGLE_CLOUD_PROJECT-labs/tracing-$APPLICATION_SERVER
         name: $APPLICATION_SERVER
         ports:
         - containerPort: $APPLICATION_SERVER_PORT

@@ -18,7 +18,7 @@ spec:
             run: $APPLICATION_CLIENT
         spec:
             containers:
-            - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$GOOGLE_CLOUD_PROJECT-labs/tracing_$APPLICATION_CLIENT
+            - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$GOOGLE_CLOUD_PROJECT-labs/tracing-$APPLICATION_CLIENT
               name: $APPLICATION_CLIENT
               resources:
                 requests:
