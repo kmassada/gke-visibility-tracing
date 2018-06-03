@@ -3,8 +3,8 @@ kind: CronJob
 metadata:
   creationTimestamp: null
   labels:
-    run: $APPLICATION
-  name: $APPLICATION
+    run: $APPLICATION_CLIENT
+  name: $APPLICATION_CLIENT
 spec:
   concurrencyPolicy: Allow
   jobTemplate:
@@ -15,11 +15,11 @@ spec:
         metadata:
           creationTimestamp: null
           labels:
-            run: $APPLICATION
+            run: $APPLICATION_CLIENT
         spec:
             containers:
-            - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$IMAGE_TAG
-              name: $APPLICATION
+            - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$GOOGLE_CLOUD_PROJECT-labs/tracing_$APPLICATION_CLIENT
+              name: $APPLICATION_CLIENT
               resources:
                 requests:
                   cpu: 200m
