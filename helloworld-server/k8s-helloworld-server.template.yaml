@@ -36,6 +36,9 @@ spec:
       containers:
       - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$GOOGLE_CLOUD_PROJECT-labs/tracing-$APPLICATION_SERVER
         name: $APPLICATION_SERVER
+        env:
+        - name: PROJECT_ID
+          value: $GOOGLE_CLOUD_PROJECT
         ports:
         - containerPort: $APPLICATION_SERVER_PORT
           name: http

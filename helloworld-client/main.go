@@ -18,11 +18,14 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"os"
 
 	"go.opencensus.io/plugin/ochttp"
 	"go.opencensus.io/trace"
 
-	"go.opencensus.io/examples/exporter"
+	"contrib.go.opencensus.io/exporter/stackdriver"
+	"contrib.go.opencensus.io/exporter/stackdriver/propagation"
+
 	"go.opencensus.io/stats/view"
 )
 
@@ -30,7 +33,12 @@ const server = "http://localhost:50030"
 
 func main() {
 	// Register stats and trace exporters to export the collected data.
-	exporter := &exporter.PrintExporter{}
+	exporter, err := stackdriver.NewExporter(stackdriver.Options{
+		ProjectID: os.Getenv("YOUR_PROJECT_ID"),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 	view.RegisterExporter(exporter)
 	trace.RegisterExporter(exporter)
 
@@ -40,7 +48,12 @@ func main() {
 	// Report stats at every second.
 	view.SetReportingPeriod(1 * time.Second)
 
-	client := &http.Client{Transport: &ochttp.Transport{}}
+	client := &http.Client{
+		Transport: &ochttp.Transport{
+				// Use Google Cloud propagation format.
+				Propagation: &propagation.HTTPFormat{},
+		},
+	}
 
 	resp, err := client.Get(server)
 	if err != nil {

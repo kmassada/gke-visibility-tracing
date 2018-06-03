@@ -19,10 +19,13 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"os"
 
 	"go.opencensus.io/zpages"
 
-	"go.opencensus.io/examples/exporter"
+	"contrib.go.opencensus.io/exporter/stackdriver"
+	"contrib.go.opencensus.io/exporter/stackdriver/propagation"
+
 	"go.opencensus.io/plugin/ochttp"
 	"go.opencensus.io/stats/view"
 	"go.opencensus.io/trace"
@@ -32,7 +35,13 @@ func main() {
 	go func() { log.Fatal(http.ListenAndServe(":8081", zpages.Handler)) }()
 
 	// Register stats and trace exporters to export the collected data.
-	exporter := &exporter.PrintExporter{}
+	// Stackdriver Trace exporter.
+	exporter, err := stackdriver.NewExporter(stackdriver.Options{
+		ProjectID:  os.Getenv("YOUR_PROJECT_ID"),
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 	view.RegisterExporter(exporter)
 	trace.RegisterExporter(exporter)
 
@@ -42,7 +51,12 @@ func main() {
 	// Report stats at every second.
 	view.SetReportingPeriod(1 * time.Second)
 
-	client := &http.Client{Transport: &ochttp.Transport{}}
+	client := &http.Client{
+		Transport: &ochttp.Transport{
+			// Use Google Cloud propagation format.
+			Propagation: &propagation.HTTPFormat{},
+		},
+	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(w, "hello world")
