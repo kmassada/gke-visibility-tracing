@@ -9,8 +9,8 @@ build:
 deploy:
   kubectl:
     manifests:
-      - $APPLICATION_CLIENT/k8s-$APPLICATION_CLIENT.yaml
       - $APPLICATION_SERVER/k8s-$APPLICATION_SERVER.yaml
+      - $APPLICATION_CLIENT/k8s-$APPLICATION_CLIENT.yaml
 profiles:
   - name: gcb
     build:

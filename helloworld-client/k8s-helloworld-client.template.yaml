@@ -23,7 +23,6 @@ spec:
               resources:
                 requests:
                   cpu: 200m
-            resources: {}
-          restartPolicy: OnFailure
+              restartPolicy: OnFailure
   schedule: '*/1 * * * *'
 status: {}
