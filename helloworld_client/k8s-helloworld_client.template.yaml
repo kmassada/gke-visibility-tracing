@@ -1,0 +1,29 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  creationTimestamp: null
+  labels:
+    run: $APPLICATION
+  name: $APPLICATION
+spec:
+  concurrencyPolicy: Allow
+  jobTemplate:
+    metadata:
+      creationTimestamp: null
+    spec:
+      template:
+        metadata:
+          creationTimestamp: null
+          labels:
+            run: $APPLICATION
+        spec:
+            containers:
+            - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$IMAGE_TAG
+              name: $APPLICATION
+              resources:
+                requests:
+                  cpu: 200m
+            resources: {}
+          restartPolicy: OnFailure
+  schedule: '*/1 * * * *'
+status: {}

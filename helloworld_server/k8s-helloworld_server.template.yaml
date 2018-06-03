@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  name: $APPLICATION
+spec:
+  ports:
+  - port: $APPLICATION_PORT
+    protocol: TCP
+    targetPort: $APPLICATION_PORT
+  selector:
+    run: $APPLICATION
+  type: LoadBalancer
+status:
+  loadBalancer: {}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    run: $APPLICATION
+  name: $APPLICATION
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: $APPLICATION
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        run: $APPLICATION
+    spec:
+      containers:
+      - image: gcr.io/$GOOGLE_CLOUD_PROJECT/$IMAGE_TAG
+        name: $APPLICATION
+        ports:
+        - containerPort: $APPLICATION_PORT
+          name: http
+        - containerPort: $TRACING_PORT
+          name: ztraces
+        resources:
+          requests:
+            cpu: 200m
+status: {}
