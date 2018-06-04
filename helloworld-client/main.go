@@ -29,9 +29,9 @@ import (
 	"go.opencensus.io/stats/view"
 )
 
-const server = "http://"+os.Getenv("APPLICATION_SERVER")+":50030"
 
 func main() {
+	server = "http://"+os.Getenv("APPLICATION_SERVER")+":50030"
 	// Register stats and trace exporters to export the collected data.
 	exporter, err := stackdriver.NewExporter(stackdriver.Options{
 		ProjectID: os.Getenv("YOUR_PROJECT_ID"),
