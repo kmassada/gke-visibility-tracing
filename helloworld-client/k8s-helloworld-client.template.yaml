@@ -23,6 +23,8 @@ spec:
               env:
               - name: PROJECT_ID
                 value: $GOOGLE_CLOUD_PROJECT
+              - name: APPLICATION_SERVER
+                value: $APPLICATION_SERVER
               resources:
                 requests:
                   cpu: 200m
