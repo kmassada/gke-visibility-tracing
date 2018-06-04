@@ -27,9 +27,18 @@ spec:
                 value: $GOOGLE_CLOUD_PROJECT
               - name: APPLICATION_SERVER
                 value: $APPLICATION_SERVER
+              - name: "GOOGLE_APPLICATION_CREDENTIALS"
+                value: "/var/run/secret/cloud.google.com/key.json"
               resources:
                 requests:
                   cpu: 200m
+              volumeMounts:
+              - name: "service-account"
+                mountPath: "/var/run/secret/cloud.google.com"
             restartPolicy: OnFailure
+      volumes:
+      - name: "service-account"
+        secret:
+          secretName: "stackdriver-secret"
   schedule: '*/1 * * * *'
 status: {}
