@@ -12,7 +12,7 @@ export PROJECT=`gcloud config get-value project`
 
 gcloud projects add-iam-policy-binding $PROJECT --member=serviceAccount:${APP_SA_EMAIL} --role=roles/logging.logWriter
 gcloud projects add-iam-policy-binding $PROJECT --member=serviceAccount:${APP_SA_EMAIL} --role=roles/monitoring.metricWriter
-
+gcloud projects add-iam-policy-binding $PROJECT --member=serviceAccount:${APP_SA_EMAIL} --role=roles/cloudtrace.agent
 # Create service account key and activate it
 gcloud iam service-accounts keys create \
     /home/$USER/key.json \
